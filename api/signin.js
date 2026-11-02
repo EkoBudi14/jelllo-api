@@ -18,7 +18,8 @@ export async function POST(request) {
 
   try {
     const form = await request.formData();
-    email = form.get("email")?.toString().trim();
+    // Email gak peka huruf besar. Simpan email di DB pakai huruf kecil.
+    email = form.get("email")?.toString().trim().toLowerCase();
     password = form.get("password")?.toString();
   } catch {
     return json(400, { message: "Body harus form-data atau x-www-form-urlencoded" });
