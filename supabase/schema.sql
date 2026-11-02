@@ -7,6 +7,7 @@ create table if not exists public.users (
   name text,
   address text,
   profil text,
+  token text not null unique default encode(extensions.gen_random_bytes(16), 'hex'),
   created_at timestamptz not null default now()
 );
 
@@ -15,12 +16,13 @@ create table if not exists public.users (
 alter table public.users enable row level security;
 
 -- User tes, sama kayak di Postman. Password di-hash bcrypt.
-insert into public.users (email, password_hash, name, address, profil)
+insert into public.users (email, password_hash, name, address, profil, token)
 values (
   'test@user.com',
   extensions.crypt('1233', extensions.gen_salt('bf')),
   'Bagicode',
   'Depok',
-  'https://avatars.githubusercontent.com/u/8241782?v=4'
+  'https://avatars.githubusercontent.com/u/8241782?v=4',
+  'basdgicascsafssfacodsde123'
 )
 on conflict (email) do nothing;

@@ -1,57 +1,34 @@
-import { randomBytes } from "node:crypto";
-import { createClient } from "@supabase/supabase-js";
 import bcrypt from "bcryptjs";
+import { supabase } from "../lib/supabase.js";
+import { readForm, reply, serverError } from "../lib/http.js";
 
-const supabase = createClient(
-  process.env.SUPABASE_URL,
-  process.env.SUPABASE_SERVICE_ROLE_KEY,
-  { auth: { persistSession: false } }
-);
-
-const json = (code, body) => Response.json({ code, ...body }, { status: code });
-
-// POST /api/signin (juga /bcompose/signin.php via vercel.json)
-// Body: form-data atau x-www-form-urlencoded -> email, password
+// POST /bcompose/signin.php
+// Body (form-data / x-www-form-urlencoded): email, password
 export async function POST(request) {
-  let email;
-  let password;
+  const form = await readForm(request);
+  if (!form) return reply(400, "Body harus form-data atau x-www-form-urlencoded");
 
-  try {
-    const form = await request.formData();
-    // Email gak peka huruf besar. Simpan email di DB pakai huruf kecil.
-    email = form.get("email")?.toString().trim().toLowerCase();
-    password = form.get("password")?.toString();
-  } catch {
-    return json(400, { message: "Body harus form-data atau x-www-form-urlencoded" });
-  }
+  // Email gak peka huruf besar. Simpan email di DB pakai huruf kecil.
+  const email = form.get("email")?.toString().trim().toLowerCase();
+  const password = form.get("password")?.toString();
 
-  if (!email || !password) {
-    return json(400, { message: "Email dan password wajib diisi" });
-  }
+  if (!email || !password) return reply(400, "Email dan password wajib diisi");
 
   const { data: user, error } = await supabase
     .from("users")
-    .select("email, password_hash, name, address, profil")
+    .select("password_hash, name, address, profil, token")
     .eq("email", email)
     .maybeSingle();
 
-  if (error) {
-    console.error(error);
-    return json(500, { message: "Something went wrong" });
-  }
+  if (error) return serverError(error);
 
   const valid = user && (await bcrypt.compare(password, user.password_hash));
-  if (!valid) {
-    return json(401, { message: "Email atau password salah" });
-  }
+  if (!valid) return reply(201, "User tidak terdaftar");
 
-  return json(200, {
-    message: "Signin Success",
-    data: {
-      name: user.name,
-      address: user.address,
-      token: randomBytes(16).toString("hex"),
-      profil: user.profil,
-    },
+  return reply(200, "Signin Success", {
+    name: user.name,
+    address: user.address,
+    token: user.token,
+    profil: user.profil,
   });
 }

@@ -1,6 +1,9 @@
 {
   "regions": ["icn1"],
   "rewrites": [
-    { "source": "/bcompose/signin.php", "destination": "/api/signin" }
+    { "source": "/bcompose/signin.php", "destination": "/api/signin" },
+    { "source": "/bcompose/signup.php", "destination": "/api/signup" },
+    { "source": "/bcompose/home.php", "destination": "/api/home" },
+    { "source": "/bcompose/profile.php", "destination": "/api/profile" }
   ]
 }
