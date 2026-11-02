@@ -1,3 +1,4 @@
+import { randomBytes } from "node:crypto";
 import bcrypt from "bcryptjs";
 import { supabase } from "../lib/supabase.js";
 import { readForm, reply, serverError } from "../lib/http.js";
@@ -16,7 +17,7 @@ export async function POST(request) {
 
   const { data: user, error } = await supabase
     .from("users")
-    .select("password_hash, name, address, profil, token")
+    .select("id, password_hash, name, address, profil")
     .eq("email", email)
     .maybeSingle();
 
@@ -25,10 +26,19 @@ export async function POST(request) {
   const valid = user && (await bcrypt.compare(password, user.password_hash));
   if (!valid) return reply(201, "User tidak terdaftar");
 
+  // Token baru tiap login. Token lama langsung gak berlaku.
+  const token = randomBytes(32).toString("hex");
+  const { error: updateError } = await supabase
+    .from("users")
+    .update({ token })
+    .eq("id", user.id);
+
+  if (updateError) return serverError(updateError);
+
   return reply(200, "Signin Success", {
     name: user.name,
     address: user.address,
-    token: user.token,
+    token,
     profil: user.profil,
   });
 }
