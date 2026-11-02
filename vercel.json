@@ -1,0 +1,5 @@
+{
+  "rewrites": [
+    { "source": "/bcompose/signin.php", "destination": "/api/signin" }
+  ]
+}
