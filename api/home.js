@@ -5,7 +5,11 @@ const list = (urls) => urls.map((image, i) => ({ id: i + 1, image }));
 
 // Isi home masih statis. Ubah di sini kalau mau ganti banner atau produk.
 const HOME = {
-  header: list(["https://i.ibb.co.com/HBg06dM/sample-slide1.png"]),
+  header: list([
+    "https://i.ibb.co.com/HBg06dM/sample-slide1.png",
+    "https://jelllo-api.vercel.app/banner/slide2.png",
+    "https://jelllo-api.vercel.app/banner/slide3.png",
+  ]),
   body: [
     {
       title: "CATEGORIES",
