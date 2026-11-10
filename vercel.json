@@ -1,9 +1,51 @@
 {
-  "regions": ["icn1"],
+  "regions": [
+    "icn1"
+  ],
   "rewrites": [
-    { "source": "/bcompose/signin.php", "destination": "/api/signin" },
-    { "source": "/bcompose/signup.php", "destination": "/api/signup" },
-    { "source": "/bcompose/home.php", "destination": "/api/home" },
-    { "source": "/bcompose/profile.php", "destination": "/api/profile" }
+    {
+      "source": "/bcompose/signin.php",
+      "destination": "/api/signin"
+    },
+    {
+      "source": "/bcompose/signup.php",
+      "destination": "/api/signup"
+    },
+    {
+      "source": "/bcompose/home.php",
+      "destination": "/api/home"
+    },
+    {
+      "source": "/bcompose/profile.php",
+      "destination": "/api/profile"
+    },
+    {
+      "source": "/bcompose/categories.php",
+      "destination": "/api/categories"
+    },
+    {
+      "source": "/bcompose/products.php",
+      "destination": "/api/products"
+    },
+    {
+      "source": "/bcompose/product.php",
+      "destination": "/api/product"
+    },
+    {
+      "source": "/bcompose/wishlist.php",
+      "destination": "/api/wishlist"
+    },
+    {
+      "source": "/bcompose/cart.php",
+      "destination": "/api/cart"
+    },
+    {
+      "source": "/bcompose/checkout.php",
+      "destination": "/api/checkout"
+    },
+    {
+      "source": "/bcompose/orders.php",
+      "destination": "/api/orders"
+    }
   ]
 }
