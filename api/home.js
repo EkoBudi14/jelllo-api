@@ -5,11 +5,7 @@ const list = (urls) => urls.map((image, i) => ({ id: i + 1, image }));
 
 // Isi home masih statis. Ubah di sini kalau mau ganti banner atau produk.
 const HOME = {
-  header: list([
-    "https://i.ibb.co.com/HBg06dM/sample-slide1.png",
-    img("1542291026-7eec264c27ff", 1200),
-    img("1549298916-b41d501d3772", 1200),
-  ]),
+  header: list(["https://i.ibb.co.com/HBg06dM/sample-slide1.png"]),
   body: [
     {
       title: "CATEGORIES",
