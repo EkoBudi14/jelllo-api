@@ -243,6 +243,5 @@ curl -s -H "$H" -X PATCH "$API/orders.php" -F id=1 -F action=next
 ## Ide ngulik selanjutnya
 
 - Review + rating beneran (cuma boleh setelah order `delivered`), lalu hitung ulang `rating` produk.
-- Home ambil dari DB, bukan statis.
 - Banyak alamat per user (layar Shipping Address).
 - Notifikasi tiap status order berubah.
